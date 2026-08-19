@@ -31,7 +31,7 @@
             line-height: 1.4;
         }
 
-        /* ── SKIP LINK (fixed: hidden until focused) ── */
+        /* ── SKIP LINK ── */
         .skip-link {
             position: absolute;
             top: -9999px;
@@ -51,7 +51,7 @@
             top: 0;
         }
 
-        /* ── COOKIE BANNER (fixed: styling + position) ── */
+        /* ── COOKIE BANNER ── */
         .cookie-banner {
             position: fixed;
             bottom: 0;
@@ -118,6 +118,25 @@
             display: grid;
             grid-template-columns: 72px 1fr 340px;
             min-height: 100vh;
+            transition: grid-template-columns 0.35s ease;
+        }
+        /* When the order panel is closed, collapse its column */
+        .shell.order-closed {
+            grid-template-columns: 72px 1fr 0px;
+        }
+        .shell.order-closed .order {
+            overflow: hidden;
+            padding: 0;
+            width: 0;
+            min-width: 0;
+            border-left: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        /* The order panel itself gets a transition for smooth hiding */
+        .order {
+            transition: opacity 0.3s ease, padding 0.3s ease, width 0.3s ease, min-width 0.3s ease, border 0.3s ease;
+            overflow: hidden;
         }
 
         /* ── RAIL ── */
@@ -132,6 +151,7 @@
             position: sticky;
             top: 0;
             height: 100vh;
+            z-index: 10;
         }
         .rail b {
             writing-mode: vertical-rl;
@@ -344,21 +364,52 @@
             flex-direction: column;
             overflow-y: auto;
             box-shadow: -8px 0 30px rgba(0, 0, 0, 0.01);
+            min-width: 300px;
+            width: 340px;
+            transition: opacity 0.3s ease, padding 0.3s ease, width 0.3s ease, min-width 0.3s ease, border 0.3s ease;
         }
-        .order h2 {
-            font-size: 2.1rem;
-            font-weight: 480;
-            margin: 4px 0 18px;
-            letter-spacing: -0.03em;
-            color: #1f1a16;
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
         }
-        .order small {
+        .order-header-left {
+            flex: 1;
+        }
+        .order-header-left small {
             text-transform: uppercase;
             letter-spacing: 0.08em;
             color: #8b7a69;
             font-weight: 470;
             font-size: 0.7rem;
         }
+        .order-header-left h2 {
+            font-size: 2.1rem;
+            font-weight: 480;
+            margin: 4px 0 18px;
+            letter-spacing: -0.03em;
+            color: #1f1a16;
+        }
+        .order-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: #b09b89;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 50%;
+            transition: 0.2s;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .order-close-btn:hover {
+            color: #c66d43;
+            background: rgba(198, 109, 67, 0.08);
+            transform: scale(1.1);
+        }
+
         #orderLines {
             flex: 1;
             margin: 6px 0 12px;
@@ -450,6 +501,49 @@
         .order::-webkit-scrollbar-thumb {
             background: #d6c8ba;
             border-radius: 20px;
+        }
+
+        /* ── REOPEN ORDER BUTTON (floating) ── */
+        .reopen-order-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 120px;
+            z-index: 25;
+            background: #1e1b18;
+            color: #f4ede7;
+            border: none;
+            border-radius: 60px;
+            padding: 14px 24px;
+            font-size: 0.9rem;
+            font-weight: 550;
+            font-family: inherit;
+            box-shadow: 0 8px 30px rgba(30, 27, 24, 0.25);
+            cursor: pointer;
+            transition: 0.25s cubic-bezier(0.2, 0, 0, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+        .reopen-order-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .reopen-order-btn:hover {
+            background: #3b3129;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 36px rgba(30, 27, 24, 0.3);
+        }
+        .reopen-order-btn .badge {
+            background: #c66d43;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 10px;
+            border-radius: 60px;
+            font-weight: 600;
         }
 
         /* ── MODALS ── */
@@ -1076,11 +1170,26 @@
         body.dark-mode #fictionalDisclaimer .portfolio-disclaimer__card button:hover {
             background: #b35d35;
         }
+        body.dark-mode .reopen-order-btn {
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .reopen-order-btn:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .reopen-order-btn .badge {
+            background: #1e1b18;
+            color: #f4ede7;
+        }
 
         /* ── RESPONSIVE ── */
         @media (max-width: 1024px) {
             .shell {
                 grid-template-columns: 60px 1fr 300px;
+            }
+            .order {
+                min-width: 260px;
+                width: 300px;
             }
             .greeting h1 {
                 font-size: 2.5rem;
@@ -1092,6 +1201,21 @@
         @media (max-width: 800px) {
             .shell {
                 grid-template-columns: 1fr;
+                transition: none;
+            }
+            .shell.order-closed {
+                grid-template-columns: 1fr;
+            }
+            .shell.order-closed .order {
+                width: 100%;
+                min-width: 0;
+                opacity: 0;
+                padding: 0;
+                height: 0;
+                max-height: 0;
+                pointer-events: none;
+                border-top: none;
+                overflow: hidden;
             }
             .rail {
                 display: none;
@@ -1112,19 +1236,31 @@
                 z-index: 20;
                 backdrop-filter: blur(12px);
                 background: rgba(252, 248, 243, 0.92);
+                min-width: 0;
+                transition: opacity 0.3s ease, max-height 0.3s ease, padding 0.3s ease, border-radius 0.3s ease;
             }
-            /* Ensure main content is not hidden behind the fixed order panel */
-            .main {
-                padding: 24px 18px calc(68vh + 20px);
+            .order.closed-mobile {
+                max-height: 0 !important;
+                padding: 0 24px !important;
+                border-radius: 0 !important;
+                opacity: 0 !important;
+                pointer-events: none !important;
+                overflow: hidden !important;
+                border-top: none !important;
             }
-            .order h2 {
+            .order-header-left h2 {
                 font-size: 1.7rem;
+                margin-bottom: 12px;
             }
             .total {
                 font-size: 1.7rem;
             }
             .menu {
                 grid-template-columns: repeat(2, 1fr);
+            }
+            .main {
+                padding: 24px 18px calc(68vh + 20px);
+                transition: padding 0.3s ease;
             }
             .search {
                 width: 100%;
@@ -1143,6 +1279,16 @@
                 width: 44px;
                 height: 44px;
                 font-size: 1rem;
+            }
+            .reopen-order-btn {
+                right: 14px;
+                bottom: 100px;
+                padding: 12px 18px;
+                font-size: 0.85rem;
+                border-radius: 60px;
+            }
+            .order-close-btn {
+                font-size: 1.3rem;
             }
         }
         @media (max-width: 480px) {
@@ -1163,9 +1309,13 @@
             .modal-wide {
                 max-width: 95vw;
             }
-            /* Adjust padding for smaller panel height */
             .main {
                 padding-bottom: calc(62vh + 20px);
+            }
+            .reopen-order-btn {
+                bottom: 80px;
+                padding: 10px 16px;
+                font-size: 0.8rem;
             }
         }
 
@@ -1289,7 +1439,7 @@
             }
         }
 
-        /* ── PORTFOLIO DISCLAIMER (fixed: properly scoped styles) ── */
+        /* ── PORTFOLIO DISCLAIMER ── */
         #fictionalDisclaimer {
             position: fixed;
             inset: 0;
@@ -1348,8 +1498,6 @@
         #fictionalDisclaimer .portfolio-disclaimer__card button:hover {
             background: #4d352d;
         }
-
-        /* ── DISCLAIMER HIDDEN STATE ── */
         #fictionalDisclaimer.hidden {
             display: none !important;
         }
@@ -1357,10 +1505,10 @@
 </head>
 <body>
 
-    <!-- ─── SKIP LINK (fixed: targets main content) ─── -->
+    <!-- ─── SKIP LINK ─── -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- ─── COOKIE BANNER (fixed: styled + functional) ─── -->
+    <!-- ─── COOKIE BANNER ─── -->
     <div class="cookie-banner" id="cookieBanner">
         <span>We use cookies to enhance your experience. By continuing, you accept our <a href="#" target="_blank">privacy policy</a>.</span>
         <div class="cookie-actions">
@@ -1370,7 +1518,7 @@
     </div>
 
     <!-- ─── SHELL ─── -->
-    <div class="shell">
+    <div class="shell" id="shell">
 
         <!-- ─── RAIL ─── -->
         <aside class="rail">
@@ -1523,8 +1671,13 @@
 
         <!-- ─── ORDER PANEL ─── -->
         <aside class="order" id="orderPanel">
-            <small>YOUR ORDER</small>
-            <h2>At the counter</h2>
+            <div class="order-header">
+                <div class="order-header-left">
+                    <small>YOUR ORDER</small>
+                    <h2>At the counter</h2>
+                </div>
+                <button class="order-close-btn" onclick="toggleOrderPanel()" aria-label="Close order panel" title="Close counter">✕</button>
+            </div>
             <div id="orderLines">
                 <div class="empty-cart">Nothing yet.</div>
             </div>
@@ -1532,6 +1685,12 @@
             <button class="checkout" id="checkoutBtn" onclick="openPayment()">PREPARE ORDER</button>
         </aside>
     </div>
+
+    <!-- ─── REOPEN ORDER BUTTON (appears when panel is closed) ─── -->
+    <button class="reopen-order-btn" id="reopenOrderBtn" onclick="toggleOrderPanel()">
+        🛒 View Order
+        <span class="badge" id="reopenBadge">0</span>
+    </button>
 
     <!-- ─── MINI TOAST ─── -->
     <div class="mini-toast" id="miniToast" aria-live="polite"></div>
@@ -1580,7 +1739,7 @@
     <!-- ─── BACK TO TOP ─── -->
     <button id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
 
-    <!-- ─── DARK MODE TOGGLE (fixed: functional) ─── -->
+    <!-- ─── DARK MODE TOGGLE ─── -->
     <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
 
     <!-- ─── FOOTER ─── -->
@@ -1628,7 +1787,7 @@
         </div>
     </footer>
 
-    <!-- ─── PORTFOLIO DISCLAIMER (fixed: properly scoped) ─── -->
+    <!-- ─── PORTFOLIO DISCLAIMER ─── -->
     <div id="fictionalDisclaimer" class="portfolio-disclaimer" aria-live="polite" aria-modal="true" role="dialog">
         <div class="portfolio-disclaimer__card">
             <span class="portfolio-disclaimer__tag">Portfolio concept notice</span>
@@ -1652,8 +1811,13 @@
             let currentOrderNumber = '';
             let orderHistory = [];
             let isProcessing = false;
+            let isOrderPanelOpen = true; // Track panel visibility (in-memory only)
 
             // ─── DOM REFS ─────────────────────────────────────────────
+            const shell = document.getElementById('shell');
+            const orderPanel = document.getElementById('orderPanel');
+            const reopenBtn = document.getElementById('reopenOrderBtn');
+            const reopenBadge = document.getElementById('reopenBadge');
             const orderLines = document.getElementById('orderLines');
             const totalEl = document.getElementById('total');
             const checkoutBtn = document.getElementById('checkoutBtn');
@@ -1691,6 +1855,66 @@
                 showMiniToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
             }
 
+            // ─── ORDER PANEL TOGGLE ──────────────────────────────────
+            // Toggle the order panel open/closed. State is kept in memory only.
+            // On desktop: collapse the grid column. On mobile: use max-height trick.
+            window.toggleOrderPanel = function() {
+                isOrderPanelOpen = !isOrderPanelOpen;
+                applyPanelState();
+            };
+
+            function applyPanelState() {
+                const isMobile = window.innerWidth <= 800;
+
+                if (isMobile) {
+                    // Mobile: use a class on the order panel itself
+                    if (isOrderPanelOpen) {
+                        orderPanel.classList.remove('closed-mobile');
+                        // Restore main padding
+                        document.querySelector('.main').style.paddingBottom = '';
+                        // Show reopen button with delay
+                        setTimeout(() => {
+                            reopenBtn.classList.remove('visible');
+                        }, 50);
+                    } else {
+                        orderPanel.classList.add('closed-mobile');
+                        // Adjust main padding so content doesn't get hidden
+                        document.querySelector('.main').style.paddingBottom = '20px';
+                        // Show reopen button
+                        setTimeout(() => {
+                            reopenBtn.classList.add('visible');
+                        }, 300);
+                    }
+                } else {
+                    // Desktop: use the shell class to collapse the grid column
+                    if (isOrderPanelOpen) {
+                        shell.classList.remove('order-closed');
+                        setTimeout(() => {
+                            reopenBtn.classList.remove('visible');
+                        }, 50);
+                    } else {
+                        shell.classList.add('order-closed');
+                        setTimeout(() => {
+                            reopenBtn.classList.add('visible');
+                        }, 350);
+                    }
+                }
+
+                // Update the reopen badge count
+                updateReopenBadge();
+            }
+
+            function updateReopenBadge() {
+                const count = cart.length;
+                reopenBadge.textContent = count;
+                // If cart is not empty and panel is closed, show a subtle indicator
+                if (count > 0 && !isOrderPanelOpen) {
+                    reopenBtn.style.border = '2px solid #c66d43';
+                } else {
+                    reopenBtn.style.border = 'none';
+                }
+            }
+
             // ─── RENDER ───────────────────────────────────────────────
             function render() {
                 if (cart.length === 0) {
@@ -1699,6 +1923,7 @@
                     checkoutBtn.textContent = 'PREPARE ORDER';
                     checkoutBtn.classList.remove('ready');
                     checkoutBtn.disabled = false;
+                    updateReopenBadge();
                     return;
                 }
                 let html = '';
@@ -1718,18 +1943,29 @@
                 checkoutBtn.textContent = 'CHECKOUT';
                 checkoutBtn.classList.remove('ready');
                 checkoutBtn.disabled = false;
+                updateReopenBadge();
             }
 
             // ─── CART OPERATIONS ──────────────────────────────────────
             window.removeItem = function(index) {
                 cart.splice(index, 1);
                 render();
+                // If cart becomes empty, the reopen badge updates automatically.
+                updateReopenBadge();
             };
 
             window.add = function(button, name, price) {
                 if (!button) return;
                 cart.push({ name, price });
                 render();
+
+                // If the order panel is closed, reopen it so the user sees their updated cart.
+                if (!isOrderPanelOpen) {
+                    isOrderPanelOpen = true;
+                    applyPanelState();
+                    // Brief visual feedback on the reopen button that it's opening.
+                    showMiniToast('🛒 Order panel opened');
+                }
 
                 button.classList.add('added');
                 button.textContent = '✓ Added';
@@ -1740,6 +1976,7 @@
                 }, 800);
 
                 updateHistoryBadge();
+                updateReopenBadge();
             };
 
             // ─── PAYMENT FLOW ─────────────────────────────────────────
@@ -1749,6 +1986,12 @@
                     return;
                 }
                 if (isProcessing) return;
+
+                // If the panel is closed, open it first so the user can see their order.
+                if (!isOrderPanelOpen) {
+                    isOrderPanelOpen = true;
+                    applyPanelState();
+                }
 
                 let sum = 0;
                 let itemsHtml = '';
@@ -1854,6 +2097,7 @@
                 render();
                 closePayment();
                 isProcessing = false;
+                updateReopenBadge();
 
                 // Reset the modal content to its original payment form.
                 modalContent.innerHTML = `
@@ -2046,7 +2290,7 @@
                 }
             });
 
-            // ─── COOKIE BANNER (fixed: functional) ──────────────────
+            // ─── COOKIE BANNER ──────────────────────────────────────
             const cookieBanner = document.getElementById('cookieBanner');
             const cookieAccept = document.getElementById('cookieAccept');
             const cookieReject = document.getElementById('cookieReject');
@@ -2064,7 +2308,7 @@
                 });
             }
 
-            // ─── DARK MODE TOGGLE (fixed: functional) ───────────────
+            // ─── DARK MODE TOGGLE ────────────────────────────────────
             const darkToggle = document.getElementById('darkModeToggle');
             let darkMode = false;
 
@@ -2073,11 +2317,10 @@
                     darkMode = !darkMode;
                     document.body.classList.toggle('dark-mode', darkMode);
                     darkToggle.textContent = darkMode ? '☀️' : '🌙';
-                    // Preserve the original button positioning and style.
                 });
             }
 
-            // ─── BACK TO TOP (already working, but re-attach for safety) ──
+            // ─── BACK TO TOP ──────────────────────────────────────────
             (function() {
                 const btn = document.getElementById('backToTop');
                 if (!btn) return;
@@ -2099,7 +2342,7 @@
                 });
             })();
 
-            // ─── NEWSLETTER SUBSCRIBE (fixed: temporary in-memory) ──
+            // ─── NEWSLETTER SUBSCRIBE ────────────────────────────────
             const subscribeBtn = document.getElementById('newsletterSubscribe');
             const newsletterInput = document.getElementById('newsletterEmail');
 
@@ -2114,25 +2357,20 @@
                         showMiniToast('Please enter a valid email address.');
                         return;
                     }
-                    // Keep subscription in memory only — it disappears on refresh.
                     showMiniToast(`✅ ${email} subscribed! (temporary)`);
                     newsletterInput.value = '';
                 });
             }
 
-            // ─── PORTFOLIO DISCLAIMER (fixed: properly scoped) ──────
+            // ─── PORTFOLIO DISCLAIMER ────────────────────────────────
             const disclaimerModal = document.getElementById('fictionalDisclaimer');
             const acknowledgeBtn = document.getElementById('acknowledgeDisclaimer');
 
             if (disclaimerModal && acknowledgeBtn) {
-                // Show the disclaimer by default.
                 disclaimerModal.classList.remove('hidden');
-
                 acknowledgeBtn.addEventListener('click', function() {
                     disclaimerModal.classList.add('hidden');
                 });
-
-                // Also close when clicking outside the card.
                 disclaimerModal.addEventListener('click', function(e) {
                     if (e.target === this) {
                         disclaimerModal.classList.add('hidden');
@@ -2140,17 +2378,29 @@
                 });
             }
 
-            // ─── INIT ──────────────────────────────────────────────────
-            // Ensure the default category filter is applied.
-            document.querySelector('.categories button.active')?.click();
+            // ─── WINDOW RESIZE HANDLER ──────────────────────────────
+            // Ensure the panel state is correctly applied when resizing between desktop/mobile.
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    applyPanelState();
+                }, 150);
+            });
 
-            // Ensure the order panel renders correctly.
+            // ─── INIT ──────────────────────────────────────────────────
+            document.querySelector('.categories button.active')?.click();
             render();
             updateHistoryBadge();
+            // Ensure the panel starts open.
+            isOrderPanelOpen = true;
+            shell.classList.remove('order-closed');
+            orderPanel.classList.remove('closed-mobile');
+            reopenBtn.classList.remove('visible');
+            // Set initial badge.
+            updateReopenBadge();
 
-            // ─── RE-BIND DINE/PAYMENT OPTIONS ON LOAD ────────────────
-            // (The initial bindings are set above, but we re-run them
-            //  to catch any dynamic state after the page loads.)
+            // ─── RE-BIND DINE/PAYMENT OPTIONS ────────────────────────
             document.querySelectorAll('#dineOptions button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     if (isProcessing) return;
