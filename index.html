@@ -1,0 +1,2171 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Common Ground · coffee</title>
+    <meta name="description" content="Common Ground is a specialty coffee shop offering premium beverages and a welcoming atmosphere. Discover excellent coffee and community.">
+    <meta name="keywords" content="coffee shop, cafe, espresso, specialty coffee, beverages">
+    <meta property="og:title" content="Common Ground · coffee">
+    <meta property="og:description" content="Enjoy premium specialty coffee and a warm community atmosphere at Common Ground café.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://example.com/og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Common Ground · coffee">
+    <meta name="twitter:description" content="Premium specialty coffee and community café experience.">
+    <meta name="twitter:image" content="https://example.com/og-image.jpg">
+    <link rel="canonical" href="https://example.com/">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23efe0d0'/%3E%3Cpath d='M20 24h24v18a10 10 0 0 1-20 0V24Z' fill='%236a432f'/%3E%3Cpath d='M44 28h4a7 7 0 0 1 0 14h-4' fill='none' stroke='%236a432f' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M25 20c-2 2-2 6 0 8M32 18c-2 3-2 7 0 10M39 20c-2 2-2 6 0 8' stroke='%239a6846' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+    <style>
+        /* ── RESET & BASE ── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f4ede7;
+            color: #221f1c;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.4;
+        }
+
+        /* ── SKIP LINK (fixed: hidden until focused) ── */
+        .skip-link {
+            position: absolute;
+            top: -9999px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e1b18;
+            color: #f4ede7;
+            padding: 12px 24px;
+            border-radius: 0 0 12px 12px;
+            z-index: 99999;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: top 0.15s ease;
+        }
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* ── COOKIE BANNER (fixed: styling + position) ── */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1e1b18;
+            color: #e7dfd7;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            z-index: 10000;
+            font-size: 0.85rem;
+            border-top: 2px solid #3d3128;
+            box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15);
+        }
+        .cookie-banner a {
+            color: #d4a574;
+            text-decoration: underline;
+        }
+        .cookie-banner a:hover {
+            color: #e8c8a8;
+        }
+        .cookie-banner .cookie-actions {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+        .cookie-banner button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 550;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .cookie-banner .accept {
+            background: #c66d43;
+            color: white;
+        }
+        .cookie-banner .accept:hover {
+            background: #b35d35;
+            transform: scale(0.97);
+        }
+        .cookie-banner .reject {
+            background: transparent;
+            color: #b09b89;
+            border: 1px solid #4d3e32;
+        }
+        .cookie-banner .reject:hover {
+            background: #2d1f1a;
+            color: #e7dfd7;
+        }
+        .cookie-banner.hidden {
+            display: none;
+        }
+
+        /* ── SHELL LAYOUT ── */
+        .shell {
+            display: grid;
+            grid-template-columns: 72px 1fr 340px;
+            min-height: 100vh;
+        }
+
+        /* ── RAIL ── */
+        .rail {
+            background: #1e1b18;
+            color: #e7dfd7;
+            padding: 32px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+        .rail b {
+            writing-mode: vertical-rl;
+            letter-spacing: 0.3em;
+            font-weight: 300;
+            font-size: 0.7rem;
+            opacity: 0.5;
+        }
+        .rail .nav-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+            opacity: 0.4;
+            transition: 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .rail .nav-icon:hover {
+            opacity: 0.9;
+            transform: scale(1.1);
+        }
+        .rail .nav-icon .badge {
+            position: absolute;
+            top: -8px;
+            right: -12px;
+            background: #c66d43;
+            color: white;
+            font-size: 0.55rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            opacity: 1;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        /* ── MAIN ── */
+        .main {
+            padding: 40px 36px 60px;
+            background: #faf6f0;
+        }
+
+        .greeting {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 18px 24px;
+            margin-bottom: 12px;
+        }
+        .greeting h1 {
+            font-size: 3.2rem;
+            font-weight: 550;
+            letter-spacing: -0.04em;
+            margin: 8px 0 0;
+            line-height: 1.05;
+            background: linear-gradient(145deg, #1f1a16, #3d3128);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .greeting small {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #7b6b5c;
+            font-weight: 500;
+        }
+
+        .search {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 60px;
+            width: 280px;
+            background: #f0e8df;
+            font-size: 0.9rem;
+            transition: 0.25s;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
+            font-family: inherit;
+            color: #221f1c;
+        }
+        .search:focus {
+            outline: none;
+            background: #ffffff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04), inset 0 0 0 2px #dacfc2;
+        }
+        .search::placeholder {
+            color: #9d8b7b;
+            font-weight: 300;
+        }
+
+        .categories {
+            display: flex;
+            gap: 8px;
+            margin: 28px 0 32px;
+            flex-wrap: wrap;
+        }
+        .categories button {
+            border: 1px solid #ddd1c3;
+            background: transparent;
+            border-radius: 60px;
+            padding: 10px 24px;
+            font-weight: 450;
+            font-size: 0.8rem;
+            color: #3f3328;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 0.02em;
+            font-family: inherit;
+        }
+        .categories button.active {
+            background: #1e1b18;
+            color: #f4ede7;
+            border-color: #1e1b18;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.06);
+        }
+        .categories button:hover {
+            background: #e3d7cb;
+            transform: translateY(-1px);
+        }
+        .categories button.active:hover {
+            background: #0f0d0b;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .item {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 16px 16px 20px;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.02), 0 2px 8px rgba(0, 0, 0, 0.02);
+            border: 1px solid #ede4da;
+            transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+            display: flex;
+            flex-direction: column;
+        }
+        .item:hover {
+            transform: translateY(-6px);
+            border-color: #cfbead;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+        .art {
+            height: 170px;
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+            background-color: #d9caba;
+            transition: 0.3s;
+        }
+        .item h3 {
+            margin: 18px 0 4px;
+            font-size: 1.15rem;
+            font-weight: 570;
+            letter-spacing: -0.02em;
+        }
+        .item p {
+            color: #716150;
+            font-size: 0.8rem;
+            margin: 0 0 8px;
+            flex: 1;
+            font-weight: 380;
+        }
+        .item b {
+            font-size: 1.2rem;
+            display: block;
+            margin: 6px 0 14px;
+            color: #1f1a16;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .item button {
+            width: 100%;
+            padding: 13px 0;
+            border: none;
+            background: #1e1b18;
+            color: white;
+            border-radius: 60px;
+            font-weight: 550;
+            font-size: 0.85rem;
+            letter-spacing: 0.4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            font-family: inherit;
+        }
+        .item button:hover {
+            background: #3b3129;
+            transform: scale(0.96);
+        }
+        .item button:active {
+            background: #0f0d0b;
+            transform: scale(0.94);
+        }
+        .item button.added {
+            background: #4f7b5a;
+        }
+
+        /* ── ORDER PANEL ── */
+        .order {
+            background: #fcf8f3;
+            border-left: 1px solid #e2d5c7;
+            padding: 34px 28px 32px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: -8px 0 30px rgba(0, 0, 0, 0.01);
+        }
+        .order h2 {
+            font-size: 2.1rem;
+            font-weight: 480;
+            margin: 4px 0 18px;
+            letter-spacing: -0.03em;
+            color: #1f1a16;
+        }
+        .order small {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #8b7a69;
+            font-weight: 470;
+            font-size: 0.7rem;
+        }
+        #orderLines {
+            flex: 1;
+            margin: 6px 0 12px;
+            padding-right: 4px;
+            overflow-y: auto;
+        }
+        .line {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #ede2d6;
+            font-weight: 440;
+            align-items: center;
+        }
+        .line span {
+            font-size: 0.95rem;
+            color: #2b231e;
+        }
+        .line b {
+            font-size: 0.95rem;
+            color: #1f1a16;
+        }
+        .line .remove-btn {
+            background: none;
+            border: none;
+            color: #b09b89;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 0 8px;
+            transition: 0.2s;
+        }
+        .line .remove-btn:hover {
+            color: #c66d43;
+            transform: scale(1.2);
+        }
+        .total {
+            font-size: 2rem;
+            font-weight: 570;
+            border-top: 2px solid #dccfc1;
+            padding-top: 22px;
+            margin-top: 8px;
+            letter-spacing: -0.03em;
+            color: #1a1512;
+        }
+        .checkout {
+            width: 100%;
+            padding: 18px 0;
+            margin-top: 20px;
+            background: #c66d43;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 8px 24px rgba(198, 109, 67, 0.18);
+            font-family: inherit;
+        }
+        .checkout:hover {
+            background: #b35d35;
+            transform: scale(0.97);
+            box-shadow: 0 8px 28px rgba(198, 109, 67, 0.25);
+        }
+        .checkout:active {
+            background: #8f4a28;
+        }
+        .checkout.ready {
+            background: #3a6b4c;
+            box-shadow: 0 6px 20px rgba(58, 107, 76, 0.25);
+        }
+        .checkout:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .empty-cart {
+            color: #b09b89;
+            font-style: normal;
+            padding: 16px 0;
+            font-weight: 320;
+            letter-spacing: 0.02em;
+        }
+
+        .order::-webkit-scrollbar {
+            width: 4px;
+        }
+        .order::-webkit-scrollbar-thumb {
+            background: #d6c8ba;
+            border-radius: 20px;
+        }
+
+        /* ── MODALS ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #fcf8f3;
+            border-radius: 40px;
+            padding: 40px 36px;
+            max-width: 480px;
+            width: 90%;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+            animation: modalIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-wide {
+            max-width: 580px;
+        }
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
+        }
+        .modal p {
+            color: #6d5d4e;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+        }
+        .modal .order-summary {
+            background: #f0e8df;
+            border-radius: 20px;
+            padding: 16px 18px;
+            margin: 12px 0 18px;
+            font-size: 0.9rem;
+        }
+        .modal .order-summary .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+        }
+        .modal .order-summary .total-row {
+            border-top: 1px solid #d5c6b6;
+            margin-top: 8px;
+            padding-top: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .dine-options {
+            display: flex;
+            gap: 12px;
+            margin: 14px 0 18px;
+        }
+        .dine-options button {
+            flex: 1;
+            padding: 12px 8px;
+            border: 2px solid #ddd1c3;
+            background: transparent;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            color: #221f1c;
+        }
+        .dine-options button.active {
+            border-color: #1e1b18;
+            background: #1e1b18;
+            color: white;
+        }
+        .dine-options button:hover {
+            border-color: #1e1b18;
+        }
+
+        .payment-options {
+            display: flex;
+            gap: 12px;
+            margin: 14px 0 22px;
+            flex-wrap: wrap;
+        }
+        .payment-options button {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px 8px;
+            border: 2px solid #ddd1c3;
+            background: transparent;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            color: #221f1c;
+        }
+        .payment-options button.active {
+            border-color: #1e1b18;
+            background: #1e1b18;
+            color: white;
+        }
+        .payment-options button:hover {
+            border-color: #1e1b18;
+        }
+
+        .modal .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .modal .actions button {
+            flex: 1;
+            padding: 15px 0;
+            border: none;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .modal .actions .btn-pay {
+            background: #1e1b18;
+            color: white;
+        }
+        .modal .actions .btn-pay:hover:not(:disabled) {
+            background: #3b3129;
+        }
+        .modal .actions .btn-pay:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .modal .actions .btn-cancel {
+            background: transparent;
+            color: #6d5d4e;
+            border: 1px solid #ddd1c3;
+        }
+        .modal .actions .btn-cancel:hover {
+            background: #f0e8df;
+        }
+
+        .modal .success-msg {
+            text-align: center;
+            padding: 16px 0 8px;
+        }
+        .modal .success-msg .icon {
+            font-size: 3.6rem;
+            margin-bottom: 8px;
+        }
+        .modal .success-msg h3 {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+        .modal .success-msg .order-number {
+            font-size: 1.1rem;
+            background: #1e1b18;
+            color: white;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 60px;
+            margin: 12px 0 10px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+        .modal .success-msg .wait-info {
+            color: #6d5d4e;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .modal .success-msg .dine-type {
+            color: #4d3e32;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+        .modal .success-msg button {
+            margin-top: 20px;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 60px;
+            background: #1e1b18;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        .modal .success-msg button:hover {
+            background: #3b3129;
+        }
+
+        /* ── HISTORY ── */
+        .history-item {
+            background: #f0e8df;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            border-left: 4px solid #c66d43;
+        }
+        .history-item .hdr {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .history-item .hdr .num {
+            color: #1e1b18;
+            font-weight: 600;
+        }
+        .history-item .hdr .time {
+            color: #7b6b5c;
+            font-size: 0.8rem;
+        }
+        .history-item .details {
+            font-size: 0.85rem;
+            color: #4d3e32;
+            display: flex;
+            justify-content: space-between;
+        }
+        .history-item .details .items {
+            opacity: 0.8;
+        }
+        .history-item .details .amount {
+            font-weight: 600;
+        }
+        .history-item .status-badge {
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .status-preparing {
+            background: #f0d8c8;
+            color: #8f5a3a;
+        }
+        .status-ready {
+            background: #c8e0d0;
+            color: #2a6b4a;
+        }
+        .status-served {
+            background: #d8d0c8;
+            color: #5a4a3a;
+        }
+        .history-empty {
+            color: #b09b89;
+            text-align: center;
+            padding: 30px 0;
+        }
+        .clear-history-btn {
+            background: none;
+            border: 1px solid #ddd1c3;
+            padding: 8px 16px;
+            border-radius: 60px;
+            color: #6d5d4e;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: 0.2s;
+            font-family: inherit;
+            margin-bottom: 16px;
+        }
+        .clear-history-btn:hover {
+            background: #f0e8df;
+            border-color: #c66d43;
+            color: #c66d43;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 0;
+            color: #b09b89;
+            font-size: 1rem;
+            grid-column: 1 / -1;
+        }
+
+        /* ── MINI TOAST ── */
+        .mini-toast {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            background: #1f1a16;
+            color: #f4ede7;
+            padding: 12px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            letter-spacing: 0.04em;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.14);
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.2s ease;
+            z-index: 1000;
+        }
+        .mini-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── BACK TO TOP ── */
+        .back-to-top {
+            position: fixed;
+            right: 18px;
+            bottom: 22px;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #1e1b18;
+            color: #fff;
+            border: 0;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            box-shadow: 0 8px 30px rgba(30, 27, 24, .18);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity .25s, transform .25s;
+            z-index: 1100;
+            cursor: pointer;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .back-to-top:focus {
+            outline: 3px solid rgba(255, 255, 255, .12);
+        }
+
+        /* ── DARK MODE ── */
+        .dark-mode-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 18px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1e1b18;
+            color: #f4ede7;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(30, 27, 24, .18);
+            z-index: 1100;
+            transition: 0.2s;
+            display: grid;
+            place-items: center;
+        }
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+            background: #3b3129;
+        }
+        body.dark-mode {
+            background: #181412;
+            color: #e7dfd7;
+        }
+        body.dark-mode .main {
+            background: #1f1b18;
+        }
+        body.dark-mode .order {
+            background: #221f1c;
+            border-left-color: #3d3128;
+        }
+        body.dark-mode .greeting h1 {
+            background: linear-gradient(145deg, #e7dfd7, #b09b89);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        body.dark-mode .greeting small {
+            color: #9d8b7b;
+        }
+        body.dark-mode .search {
+            background: #2d2824;
+            color: #e7dfd7;
+        }
+        body.dark-mode .search::placeholder {
+            color: #7b6b5c;
+        }
+        body.dark-mode .search:focus {
+            background: #3d3530;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2), inset 0 0 0 2px #6a5a4a;
+        }
+        body.dark-mode .categories button {
+            border-color: #4d3e32;
+            color: #b09b89;
+        }
+        body.dark-mode .categories button.active {
+            background: #c66d43;
+            border-color: #c66d43;
+            color: #f4ede7;
+        }
+        body.dark-mode .categories button:hover {
+            background: #3d3128;
+        }
+        body.dark-mode .item {
+            background: #2d2824;
+            border-color: #3d3530;
+        }
+        body.dark-mode .item:hover {
+            border-color: #6a5a4a;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        body.dark-mode .item h3 {
+            color: #e7dfd7;
+        }
+        body.dark-mode .item p {
+            color: #9d8b7b;
+        }
+        body.dark-mode .item b {
+            color: #e7dfd7;
+        }
+        body.dark-mode .item button {
+            background: #c66d43;
+        }
+        body.dark-mode .item button:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .item button.added {
+            background: #4f7b5a;
+        }
+        body.dark-mode .line {
+            border-bottom-color: #3d3128;
+        }
+        body.dark-mode .line span {
+            color: #c8bcb0;
+        }
+        body.dark-mode .line b {
+            color: #e7dfd7;
+        }
+        body.dark-mode .total {
+            border-top-color: #4d3e32;
+            color: #e7dfd7;
+        }
+        body.dark-mode .modal {
+            background: #2d2824;
+            color: #e7dfd7;
+        }
+        body.dark-mode .modal p {
+            color: #b09b89;
+        }
+        body.dark-mode .modal .order-summary {
+            background: #3d3530;
+        }
+        body.dark-mode .modal .order-summary .total-row {
+            border-top-color: #5a4a3a;
+        }
+        body.dark-mode .dine-options button {
+            border-color: #4d3e32;
+            color: #b09b89;
+        }
+        body.dark-mode .dine-options button.active {
+            border-color: #c66d43;
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .payment-options button {
+            border-color: #4d3e32;
+            color: #b09b89;
+        }
+        body.dark-mode .payment-options button.active {
+            border-color: #c66d43;
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .modal .actions .btn-pay {
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .modal .actions .btn-pay:hover:not(:disabled) {
+            background: #b35d35;
+        }
+        body.dark-mode .modal .actions .btn-cancel {
+            border-color: #4d3e32;
+            color: #b09b89;
+        }
+        body.dark-mode .modal .actions .btn-cancel:hover {
+            background: #3d3530;
+        }
+        body.dark-mode .modal .success-msg .order-number {
+            background: #c66d43;
+        }
+        body.dark-mode .modal .success-msg button {
+            background: #c66d43;
+        }
+        body.dark-mode .modal .success-msg button:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .history-item {
+            background: #3d3530;
+            border-left-color: #c66d43;
+        }
+        body.dark-mode .history-item .hdr .num {
+            color: #e7dfd7;
+        }
+        body.dark-mode .history-item .hdr .time {
+            color: #9d8b7b;
+        }
+        body.dark-mode .history-item .details {
+            color: #c8bcb0;
+        }
+        body.dark-mode .history-empty {
+            color: #7b6b5c;
+        }
+        body.dark-mode .clear-history-btn {
+            border-color: #4d3e32;
+            color: #b09b89;
+        }
+        body.dark-mode .clear-history-btn:hover {
+            background: #3d3530;
+            border-color: #c66d43;
+            color: #c66d43;
+        }
+        body.dark-mode .back-to-top {
+            background: #c66d43;
+        }
+        body.dark-mode .dark-mode-toggle {
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .dark-mode-toggle:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .mini-toast {
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode .cookie-banner {
+            background: #0d0b0a;
+            border-top-color: #3d3128;
+        }
+        body.dark-mode .cookie-banner .accept {
+            background: #c66d43;
+        }
+        body.dark-mode .cookie-banner .accept:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .cookie-banner .reject {
+            border-color: #4d3e32;
+            color: #9d8b7b;
+        }
+        body.dark-mode .cookie-banner .reject:hover {
+            background: #2d2824;
+            color: #e7dfd7;
+        }
+        body.dark-mode .site-footer {
+            background: #0d0b0a;
+            border-top-color: #3d3128;
+        }
+        body.dark-mode .site-footer .footer-col p {
+            color: #9d8b7b;
+        }
+        body.dark-mode .site-footer .footer-col a {
+            color: #b09b89;
+        }
+        body.dark-mode .site-footer .footer-col a:hover {
+            color: #d4a574;
+        }
+        body.dark-mode .site-footer .footer-newsletter input {
+            border-color: #4d3e32;
+            background: #2d2824;
+            color: #e7dfd7;
+        }
+        body.dark-mode .site-footer .footer-newsletter button {
+            background: #c66d43;
+        }
+        body.dark-mode .site-footer .footer-newsletter button:hover {
+            background: #b35d35;
+        }
+        body.dark-mode .site-footer .social-links a {
+            border-color: #4d3e32;
+            color: #9d8b7b;
+        }
+        body.dark-mode .site-footer .social-links a:hover {
+            background: #3d3530;
+            color: #d4a574;
+        }
+        body.dark-mode .site-footer .footer-bottom {
+            border-top-color: #3d3128;
+        }
+        body.dark-mode .site-footer .footer-links a {
+            color: #7b6b5c;
+        }
+        body.dark-mode .site-footer .footer-links a:hover {
+            color: #b09b89;
+        }
+        body.dark-mode #fictionalDisclaimer .portfolio-disclaimer__card {
+            background: #2d2824;
+            color: #e7dfd7;
+            border-color: #4d3e32;
+        }
+        body.dark-mode #fictionalDisclaimer .portfolio-disclaimer__card p {
+            color: #b09b89;
+        }
+        body.dark-mode #fictionalDisclaimer .portfolio-disclaimer__card button {
+            background: #c66d43;
+            color: white;
+        }
+        body.dark-mode #fictionalDisclaimer .portfolio-disclaimer__card button:hover {
+            background: #b35d35;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .shell {
+                grid-template-columns: 60px 1fr 300px;
+            }
+            .greeting h1 {
+                font-size: 2.5rem;
+            }
+            .search {
+                width: 200px;
+            }
+        }
+        @media (max-width: 800px) {
+            .shell {
+                grid-template-columns: 1fr;
+            }
+            .rail {
+                display: none;
+            }
+            .order {
+                position: fixed;
+                right: 0;
+                bottom: 0;
+                top: auto;
+                height: auto;
+                max-height: 68vh;
+                width: min(360px, 92vw);
+                border-left: none;
+                border-top: 1px solid #ddd0c1;
+                border-radius: 32px 32px 0 0;
+                padding: 24px 24px 28px;
+                box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.04);
+                z-index: 20;
+                backdrop-filter: blur(12px);
+                background: rgba(252, 248, 243, 0.92);
+            }
+            .order h2 {
+                font-size: 1.7rem;
+            }
+            .total {
+                font-size: 1.7rem;
+            }
+            .menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .main {
+                padding: 24px 18px 130px;
+            }
+            .search {
+                width: 100%;
+            }
+            .greeting {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            body.dark-mode .order {
+                background: rgba(34, 31, 28, 0.92);
+                border-top-color: #3d3128;
+            }
+            .dark-mode-toggle {
+                bottom: 80px;
+                right: 14px;
+                width: 44px;
+                height: 44px;
+                font-size: 1rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .menu {
+                grid-template-columns: 1fr;
+            }
+            .order {
+                width: 100vw;
+                max-height: 62vh;
+                border-radius: 28px 28px 0 0;
+            }
+            .greeting h1 {
+                font-size: 2.2rem;
+            }
+            .modal {
+                padding: 30px 20px;
+            }
+            .modal-wide {
+                max-width: 95vw;
+            }
+        }
+
+        /* ── FOOTER ── */
+        .site-footer {
+            background: #0d1b22;
+            color: #e6e0d8;
+            padding: 70px 5vw 30px;
+            margin-top: 100px;
+            border-top: 2px solid #8b6f47;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.2fr;
+            gap: 40px;
+            max-width: 1400px;
+            margin: auto 0 40px;
+        }
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin: 0 0 16px;
+            font-weight: 500;
+        }
+        .footer-col p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #a89e92;
+        }
+        .footer-col a {
+            display: block;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #c4b8aa;
+            transition: .2s;
+            text-decoration: none;
+        }
+        .footer-col a:hover {
+            color: #d4a574;
+        }
+        .footer-newsletter {
+            margin: 20px 0;
+        }
+        .footer-newsletter input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            background: rgba(212, 165, 116, 0.05);
+            color: #e6e0d8;
+            border-radius: 4px;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-family: inherit;
+        }
+        .footer-newsletter button {
+            width: 100%;
+            padding: 11px 14px;
+            background: #8b6f47;
+            color: #e6e0d8;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            transition: .2s;
+            font-family: inherit;
+        }
+        .footer-newsletter button:hover {
+            background: #a08055;
+        }
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .social-links a {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(212, 165, 116, 0.2);
+            border-radius: 50%;
+            font-size: 14px;
+            transition: .2s;
+            color: #a89e92;
+            margin: 0;
+            text-decoration: none;
+        }
+        .social-links a:hover {
+            background: rgba(212, 165, 116, 0.1);
+            color: #d4a574;
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(212, 165, 116, 0.1);
+            font-size: 12px;
+            color: #6a6057;
+        }
+        .footer-links a {
+            margin: 0 16px 0 0;
+            color: #6a6057;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: #a89e92;
+        }
+        @media (max-width: 900px) {
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        /* ── PORTFOLIO DISCLAIMER (fixed: properly scoped styles) ── */
+        #fictionalDisclaimer {
+            position: fixed;
+            inset: 0;
+            background: rgba(25, 18, 13, 0.72);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            z-index: 99999;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__card {
+            width: min(540px, 100%);
+            background: #f8f0e7;
+            color: #271b16;
+            border: 1px solid rgba(39, 27, 22, 0.12);
+            border-radius: 22px;
+            box-shadow: 0 26px 80px rgba(0, 0, 0, 0.28);
+            padding: 28px 28px 22px;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__tag {
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 10px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #866048;
+            font-weight: 700;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__card h2 {
+            margin: 0 0 14px;
+            font-size: clamp(28px, 5vw, 38px);
+            line-height: 1.04;
+            letter-spacing: -0.06em;
+            font-weight: 700;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__card p {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.7;
+            color: #4d352d;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__card button {
+            margin-top: 22px;
+            border: 0;
+            background: #2d1d16;
+            color: #f9efe5;
+            border-radius: 999px;
+            padding: 13px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: .2s;
+            font-family: inherit;
+        }
+        #fictionalDisclaimer .portfolio-disclaimer__card button:hover {
+            background: #4d352d;
+        }
+
+        /* ── DISCLAIMER HIDDEN STATE ── */
+        #fictionalDisclaimer.hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── SKIP LINK (fixed: targets main content) ─── -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- ─── COOKIE BANNER (fixed: styled + functional) ─── -->
+    <div class="cookie-banner" id="cookieBanner">
+        <span>We use cookies to enhance your experience. By continuing, you accept our <a href="#" target="_blank">privacy policy</a>.</span>
+        <div class="cookie-actions">
+            <button class="reject" id="cookieReject">Reject</button>
+            <button class="accept" id="cookieAccept">Accept</button>
+        </div>
+    </div>
+
+    <!-- ─── SHELL ─── -->
+    <div class="shell">
+
+        <!-- ─── RAIL ─── -->
+        <aside class="rail">
+            <b>COMMON GROUND</b>
+            <span class="nav-icon" onclick="openHistory()" title="Order History">📋</span>
+            <span class="nav-icon" onclick="openPayment()" title="New Order">☕</span>
+            <span class="nav-icon" id="historyBadge" style="display:none;">🔔</span>
+        </aside>
+
+        <!-- ─── MAIN ─── -->
+        <main class="main" id="main-content">
+            <div class="greeting">
+                <div>
+                    <small id="dateDisplay">WEDNESDAY · 12 AUG</small>
+                    <h1>Good coffee, right here.</h1>
+                </div>
+                <input class="search" id="search" oninput="searchMenu()" placeholder="Search the menu" aria-label="Search menu">
+            </div>
+
+            <div class="categories">
+                <button class="active" onclick="cat('all',this)">All</button>
+                <button onclick="cat('coffee',this)">Coffee</button>
+                <button onclick="cat('food',this)">Food</button>
+                <button onclick="cat('cold',this)">Cold</button>
+                <button onclick="cat('pastry',this)">Pastry</button>
+            </div>
+
+            <div class="menu" id="menu">
+                <!-- Coffee -->
+                <article class="item" data-cat="coffee">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Flat White</h3>
+                    <p>Double espresso · silky milk</p>
+                    <b>₱170</b>
+                    <button onclick="add(this, 'Flat White', 170)">Add</button>
+                </article>
+                <article class="item" data-cat="coffee">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Long Black</h3>
+                    <p>Double espresso · hot water</p>
+                    <b>₱150</b>
+                    <button onclick="add(this, 'Long Black', 150)">Add</button>
+                </article>
+                <article class="item" data-cat="coffee">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Caramel Macchiato</h3>
+                    <p>Vanilla · caramel · espresso</p>
+                    <b>₱195</b>
+                    <button onclick="add(this, 'Caramel Macchiato', 195)">Add</button>
+                </article>
+                <article class="item" data-cat="coffee">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Mocha</h3>
+                    <p>Espresso · chocolate · milk</p>
+                    <b>₱185</b>
+                    <button onclick="add(this, 'Mocha', 185)">Add</button>
+                </article>
+                <article class="item" data-cat="coffee">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1534687941688-651cb1b5cf3d?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Americano</h3>
+                    <p>Espresso · hot water</p>
+                    <b>₱140</b>
+                    <button onclick="add(this, 'Americano', 140)">Add</button>
+                </article>
+
+                <!-- Cold -->
+                <article class="item" data-cat="cold">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Sea Salt Latte</h3>
+                    <p>Vanilla · espresso · foam</p>
+                    <b>₱210</b>
+                    <button onclick="add(this, 'Sea Salt Latte', 210)">Add</button>
+                </article>
+                <article class="item" data-cat="cold">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1558857563-c0c8a7b4f2b8?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Yuzu Tonic</h3>
+                    <p>Yuzu · tonic · espresso</p>
+                    <b>₱195</b>
+                    <button onclick="add(this, 'Yuzu Tonic', 195)">Add</button>
+                </article>
+                <article class="item" data-cat="cold">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Iced Matcha Latte</h3>
+                    <p>Matcha · oat milk · honey</p>
+                    <b>₱220</b>
+                    <button onclick="add(this, 'Iced Matcha Latte', 220)">Add</button>
+                </article>
+                <article class="item" data-cat="cold">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Cold Brew</h3>
+                    <p>12hr steep · smooth finish</p>
+                    <b>₱180</b>
+                    <button onclick="add(this, 'Cold Brew', 180)">Add</button>
+                </article>
+
+                <!-- Food -->
+                <article class="item" data-cat="food">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Butter Croissant</h3>
+                    <p>Flaky · warm · morning bake</p>
+                    <b>₱145</b>
+                    <button onclick="add(this, 'Butter Croissant', 145)">Add</button>
+                </article>
+                <article class="item" data-cat="food">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Ham & Cheese</h3>
+                    <p>Sourdough · cheddar · mustard</p>
+                    <b>₱260</b>
+                    <button onclick="add(this, 'Ham & Cheese', 260)">Add</button>
+                </article>
+                <article class="item" data-cat="food">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Avocado Toast</h3>
+                    <p>Sourdough · avocado · chili</p>
+                    <b>₱280</b>
+                    <button onclick="add(this, 'Avocado Toast', 280)">Add</button>
+                </article>
+                <article class="item" data-cat="food">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Breakfast Bowl</h3>
+                    <p>Quinoa · eggs · greens</p>
+                    <b>₱320</b>
+                    <button onclick="add(this, 'Breakfast Bowl', 320)">Add</button>
+                </article>
+
+                <!-- Pastry -->
+                <article class="item" data-cat="pastry">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Almond Danish</h3>
+                    <p>Almond cream · flaky pastry</p>
+                    <b>₱165</b>
+                    <button onclick="add(this, 'Almond Danish', 165)">Add</button>
+                </article>
+                <article class="item" data-cat="pastry">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Blueberry Muffin</h3>
+                    <p>Fresh blueberries · streusel</p>
+                    <b>₱155</b>
+                    <button onclick="add(this, 'Blueberry Muffin', 155)">Add</button>
+                </article>
+                <article class="item" data-cat="pastry">
+                    <div class="art" style="background-image: url('https://images.unsplash.com/photo-1559616551-1d8cf3a4ed41?w=400&h=300&fit=crop&auto=format&q=80');"></div>
+                    <h3>Cinnamon Roll</h3>
+                    <p>Warm · cream cheese glaze</p>
+                    <b>₱190</b>
+                    <button onclick="add(this, 'Cinnamon Roll', 190)">Add</button>
+                </article>
+            </div>
+        </main>
+
+        <!-- ─── ORDER PANEL ─── -->
+        <aside class="order" id="orderPanel">
+            <small>YOUR ORDER</small>
+            <h2>At the counter</h2>
+            <div id="orderLines">
+                <div class="empty-cart">Nothing yet.</div>
+            </div>
+            <div class="total" id="total">₱0</div>
+            <button class="checkout" id="checkoutBtn" onclick="openPayment()">PREPARE ORDER</button>
+        </aside>
+    </div>
+
+    <!-- ─── MINI TOAST ─── -->
+    <div class="mini-toast" id="miniToast" aria-live="polite"></div>
+
+    <!-- ─── PAYMENT MODAL ─── -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal" id="modalContent">
+            <h2>💳 Payment</h2>
+            <p>Choose your payment method &amp; dining option</p>
+
+            <div class="dine-options" id="dineOptions">
+                <button class="active" data-dine="dine-in">Dine In</button>
+                <button data-dine="takeout">Take Out</button>
+            </div>
+
+            <div class="order-summary" id="modalSummary"></div>
+
+            <div class="payment-options" id="paymentOptions">
+                <button class="active" data-method="gcash">GCash</button>
+                <button data-method="paymaya">PayMaya</button>
+                <button data-method="card">Credit Card</button>
+                <button data-method="cash">Cash</button>
+            </div>
+
+            <div class="actions">
+                <button class="btn-cancel" onclick="closePayment()">Cancel</button>
+                <button class="btn-pay" id="payBtn" onclick="processPayment()">Pay ₱0</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── ORDER HISTORY MODAL ─── -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal modal-wide" id="historyContent">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                <h2>📋 Order History</h2>
+                <button onclick="closeHistory()" style="background:none;border:none;font-size:1.8rem;cursor:pointer;color:#6d5d4e;padding:0 8px;">×</button>
+            </div>
+            <button class="clear-history-btn" onclick="clearHistory()">Clear All</button>
+            <div id="historyList">
+                <div class="history-empty">No orders yet. Start by placing your first order! ☕</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── BACK TO TOP ─── -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
+
+    <!-- ─── DARK MODE TOGGLE (fixed: functional) ─── -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+
+    <!-- ─── FOOTER ─── -->
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Common Ground</h4>
+                <p>Specialty coffee and community gatherings. Where coffee brings people together.</p>
+                <div class="social-links">
+                    <a href="#" title="Instagram">📷</a>
+                    <a href="#" title="Twitter">🐦</a>
+                    <a href="#" title="Email">✉️</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <a href="#">Coffee</a>
+                <a href="#">Pastries</a>
+                <a href="#">Gifts</a>
+                <a href="#">Subscriptions</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="#">About</a>
+                <a href="#">Locations</a>
+                <a href="#">Blog</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Stay Connected</h4>
+                <p>New blends and café updates delivered monthly.</p>
+                <div class="footer-newsletter">
+                    <input type="email" id="newsletterEmail" placeholder="Your email" />
+                    <button id="newsletterSubscribe">Subscribe</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>&copy; 2024 Common Ground. All rights reserved.</div>
+            <div class="footer-links">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ─── PORTFOLIO DISCLAIMER (fixed: properly scoped) ─── -->
+    <div id="fictionalDisclaimer" class="portfolio-disclaimer" aria-live="polite" aria-modal="true" role="dialog">
+        <div class="portfolio-disclaimer__card">
+            <span class="portfolio-disclaimer__tag">Portfolio concept notice</span>
+            <h2>Disclaimer</h2>
+            <p>This is a fictional concept project for portfolio demonstration purposes only. Not affiliated with any real entity.</p>
+            <button id="acknowledgeDisclaimer" type="button">I acknowledge</button>
+        </div>
+    </div>
+
+    <!-- ─── JAVASCRIPT ─── -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ─── STATE ────────────────────────────────────────────────
+            // All user-created data is kept in memory only.
+            // Refreshing the page resets everything to the original state.
+            let cart = [];
+            let selectedPayment = 'gcash';
+            let selectedDine = 'dine-in';
+            let currentOrderNumber = '';
+            let orderHistory = [];
+            let isProcessing = false;
+
+            // ─── DOM REFS ─────────────────────────────────────────────
+            const orderLines = document.getElementById('orderLines');
+            const totalEl = document.getElementById('total');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const modal = document.getElementById('paymentModal');
+            const modalContent = document.getElementById('modalContent');
+            const modalSummary = document.getElementById('modalSummary');
+            const payBtn = document.getElementById('payBtn');
+            const historyModal = document.getElementById('historyModal');
+            const historyList = document.getElementById('historyList');
+            const historyBadge = document.getElementById('historyBadge');
+            const dateDisplay = document.getElementById('dateDisplay');
+
+            // ─── DATE ─────────────────────────────────────────────────
+            const now = new Date();
+            const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+            dateDisplay.textContent = `${days[now.getDay()]} · ${now.getDate()} ${months[now.getMonth()]}`;
+
+            // ─── HELPERS ──────────────────────────────────────────────
+            function generateOrderNumber() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = 'CG-';
+                for (let i = 0; i < 8; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+
+            function showMiniToast(message) {
+                const toast = document.getElementById('miniToast');
+                if (!toast) return;
+                toast.textContent = message;
+                toast.classList.add('show');
+                clearTimeout(showMiniToast.timer);
+                showMiniToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
+            }
+
+            // ─── RENDER ───────────────────────────────────────────────
+            function render() {
+                if (cart.length === 0) {
+                    orderLines.innerHTML = '<div class="empty-cart">Nothing yet.</div>';
+                    totalEl.textContent = '₱0';
+                    checkoutBtn.textContent = 'PREPARE ORDER';
+                    checkoutBtn.classList.remove('ready');
+                    checkoutBtn.disabled = false;
+                    return;
+                }
+                let html = '';
+                let sum = 0;
+                cart.forEach((item, index) => {
+                    sum += item.price;
+                    html += `<div class="line">
+                        <span>${item.name}</span>
+                        <div>
+                            <b>₱${item.price}</b>
+                            <button class="remove-btn" onclick="removeItem(${index})" title="Remove">✕</button>
+                        </div>
+                    </div>`;
+                });
+                orderLines.innerHTML = html;
+                totalEl.textContent = '₱' + sum.toLocaleString();
+                checkoutBtn.textContent = 'CHECKOUT';
+                checkoutBtn.classList.remove('ready');
+                checkoutBtn.disabled = false;
+            }
+
+            // ─── CART OPERATIONS ──────────────────────────────────────
+            window.removeItem = function(index) {
+                cart.splice(index, 1);
+                render();
+            };
+
+            window.add = function(button, name, price) {
+                if (!button) return;
+                cart.push({ name, price });
+                render();
+
+                button.classList.add('added');
+                button.textContent = '✓ Added';
+                clearTimeout(button._addedTimer);
+                button._addedTimer = setTimeout(() => {
+                    button.classList.remove('added');
+                    button.textContent = 'Add';
+                }, 800);
+
+                updateHistoryBadge();
+            };
+
+            // ─── PAYMENT FLOW ─────────────────────────────────────────
+            window.openPayment = function() {
+                if (cart.length === 0) {
+                    showMiniToast('Add a drink or food first.');
+                    return;
+                }
+                if (isProcessing) return;
+
+                let sum = 0;
+                let itemsHtml = '';
+                cart.forEach(item => {
+                    sum += item.price;
+                    itemsHtml += `<div class="row"><span>${item.name}</span><span>₱${item.price}</span></div>`;
+                });
+                modalSummary.innerHTML = itemsHtml +
+                    `<div class="row total-row"><span>Total</span><span>₱${sum.toLocaleString()}</span></div>`;
+                payBtn.textContent = `Pay ₱${sum.toLocaleString()}`;
+                payBtn.disabled = false;
+
+                selectedDine = 'dine-in';
+                document.querySelectorAll('#dineOptions button').forEach(b => {
+                    b.classList.toggle('active', b.dataset.dine === 'dine-in');
+                });
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closePayment = function() {
+                if (isProcessing) return;
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            // ─── DINE & PAYMENT OPTIONS ──────────────────────────────
+            document.querySelectorAll('#dineOptions button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (isProcessing) return;
+                    document.querySelectorAll('#dineOptions button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedDine = this.dataset.dine;
+                });
+            });
+
+            document.querySelectorAll('#paymentOptions button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (isProcessing) return;
+                    document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedPayment = this.dataset.method;
+                });
+            });
+
+            // ─── PROCESS PAYMENT ──────────────────────────────────────
+            window.processPayment = function() {
+                if (isProcessing) return;
+                const sum = cart.reduce((acc, item) => acc + item.price, 0);
+                isProcessing = true;
+                payBtn.disabled = true;
+                payBtn.textContent = 'Processing...';
+                payBtn.style.opacity = '0.7';
+
+                setTimeout(() => {
+                    currentOrderNumber = generateOrderNumber();
+
+                    const methodNames = {
+                        gcash: 'GCash',
+                        paymaya: 'PayMaya',
+                        card: 'Credit Card',
+                        cash: 'Cash'
+                    };
+                    const dineNames = {
+                        'dine-in': 'Dine In',
+                        'takeout': 'Take Out'
+                    };
+
+                    const orderItems = cart.map(item => ({ name: item.name, price: item.price }));
+                    const historyEntry = {
+                        orderNumber: currentOrderNumber,
+                        items: orderItems,
+                        total: sum,
+                        payment: methodNames[selectedPayment] || selectedPayment,
+                        dineType: dineNames[selectedDine] || 'Dine In',
+                        timestamp: new Date().toLocaleString(),
+                        status: 'Preparing'
+                    };
+                    orderHistory.push(historyEntry);
+                    updateHistoryBadge();
+
+                    modalContent.innerHTML = `
+                        <div class="success-msg">
+                            <div class="icon">✅</div>
+                            <h3>Order Placed!</h3>
+                            <div class="order-number">${currentOrderNumber}</div>
+                            <p class="wait-info">⏳ Please wait for your order to be prepared.</p>
+                            <p class="dine-type">${dineNames[selectedDine] || 'Dine In'} · Paid via ${methodNames[selectedPayment] || selectedPayment}</p>
+                            <p style="font-size:0.8rem;color:#8b7a69;margin-top:6px;">₱${sum.toLocaleString()} · ${cart.length} item${cart.length > 1 ? 's' : ''}</p>
+                            <button onclick="finishOrder()">Got it, thanks!</button>
+                        </div>
+                    `;
+                    payBtn.disabled = false;
+                    payBtn.style.opacity = '1';
+                    isProcessing = false;
+                }, 1500);
+            };
+
+            // ─── FINISH ORDER ─────────────────────────────────────────
+            window.finishOrder = function() {
+                cart = [];
+                render();
+                closePayment();
+                isProcessing = false;
+
+                // Reset the modal content to its original payment form.
+                modalContent.innerHTML = `
+                    <h2>💳 Payment</h2>
+                    <p>Choose your payment method &amp; dining option</p>
+                    <div class="dine-options" id="dineOptions">
+                        <button class="active" data-dine="dine-in">Dine In</button>
+                        <button data-dine="takeout">Take Out</button>
+                    </div>
+                    <div class="order-summary" id="modalSummary"></div>
+                    <div class="payment-options" id="paymentOptions">
+                        <button class="active" data-method="gcash">GCash</button>
+                        <button data-method="paymaya">PayMaya</button>
+                        <button data-method="card">Credit Card</button>
+                        <button data-method="cash">Cash</button>
+                    </div>
+                    <div class="actions">
+                        <button class="btn-cancel" onclick="closePayment()">Cancel</button>
+                        <button class="btn-pay" id="payBtn" onclick="processPayment()">Pay ₱0</button>
+                    </div>
+                `;
+
+                // Re-bind dine option listeners.
+                document.querySelectorAll('#dineOptions button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (isProcessing) return;
+                        document.querySelectorAll('#dineOptions button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        selectedDine = this.dataset.dine;
+                    });
+                });
+
+                // Re-bind payment option listeners.
+                document.querySelectorAll('#paymentOptions button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (isProcessing) return;
+                        document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        selectedPayment = this.dataset.method;
+                    });
+                });
+
+                // Re-bind the pay button.
+                document.getElementById('payBtn').addEventListener('click', window.processPayment);
+
+                // Re-bind cancel button.
+                document.querySelector('.btn-cancel').addEventListener('click', window.closePayment);
+
+                selectedPayment = 'gcash';
+                selectedDine = 'dine-in';
+
+                // Brief visual feedback on the order panel.
+                const panel = document.getElementById('orderPanel');
+                panel.style.transition = 'background 0.3s';
+                panel.style.background = '#e5f0e8';
+                setTimeout(() => { panel.style.background = ''; }, 500);
+            };
+
+            // ─── HISTORY ──────────────────────────────────────────────
+            window.openHistory = function() {
+                renderHistory();
+                historyModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                historyBadge.style.display = 'none';
+            };
+
+            window.closeHistory = function() {
+                historyModal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            window.clearHistory = function() {
+                if (orderHistory.length === 0) return;
+                if (confirm('Clear all order history?')) {
+                    orderHistory = [];
+                    renderHistory();
+                    updateHistoryBadge();
+                }
+            };
+
+            function renderHistory() {
+                if (orderHistory.length === 0) {
+                    historyList.innerHTML = '<div class="history-empty">No orders yet. Start by placing your first order! ☕</div>';
+                    return;
+                }
+                let html = '';
+                const reversed = [...orderHistory].reverse();
+                reversed.forEach(order => {
+                    const itemsStr = order.items.map(i => i.name).join(', ');
+                    const statusClass = order.status === 'Preparing' ? 'status-preparing' :
+                        order.status === 'Ready' ? 'status-ready' : 'status-served';
+                    html += `
+                        <div class="history-item">
+                            <div class="hdr">
+                                <span class="num">${order.orderNumber}</span>
+                                <span class="time">${order.timestamp}</span>
+                            </div>
+                            <div class="details">
+                                <span class="items">${itemsStr} (${order.items.length} item${order.items.length > 1 ? 's' : ''})</span>
+                                <span class="amount">₱${order.total.toLocaleString()}</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;">
+                                <span style="font-size:0.75rem;color:#8b7a69;">${order.dineType} · ${order.payment}</span>
+                                <span class="status-badge ${statusClass}">${order.status}</span>
+                            </div>
+                            <div style="margin-top:6px;display:flex;gap:6px;">
+                                <button onclick="updateOrderStatus('${order.orderNumber}','Ready')" style="padding:2px 12px;border:1px solid #ddd1c3;border-radius:20px;background:transparent;font-size:0.7rem;cursor:pointer;font-family:inherit;">Mark Ready</button>
+                                <button onclick="updateOrderStatus('${order.orderNumber}','Served')" style="padding:2px 12px;border:1px solid #ddd1c3;border-radius:20px;background:transparent;font-size:0.7rem;cursor:pointer;font-family:inherit;">Mark Served</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                historyList.innerHTML = html;
+            }
+
+            window.updateOrderStatus = function(orderNumber, newStatus) {
+                const order = orderHistory.find(o => o.orderNumber === orderNumber);
+                if (order) {
+                    order.status = newStatus;
+                    renderHistory();
+                    updateHistoryBadge();
+                }
+            };
+
+            function updateHistoryBadge() {
+                if (orderHistory.length > 0) {
+                    historyBadge.style.display = 'block';
+                    historyBadge.textContent = orderHistory.length;
+                } else {
+                    historyBadge.style.display = 'none';
+                }
+            }
+
+            // ─── SEARCH ───────────────────────────────────────────────
+            window.searchMenu = function() {
+                const q = document.getElementById('search').value.toLowerCase().trim();
+                const items = document.querySelectorAll('.item');
+                let visible = 0;
+                items.forEach(el => {
+                    const text = el.textContent.toLowerCase();
+                    const match = text.includes(q);
+                    el.style.display = match ? 'block' : 'none';
+                    if (match) visible++;
+                });
+                const menu = document.getElementById('menu');
+                let noResults = menu.querySelector('.no-results');
+                if (visible === 0 && q.length > 0) {
+                    if (!noResults) {
+                        noResults = document.createElement('div');
+                        noResults.className = 'no-results';
+                        noResults.textContent = 'No items found. Try a different search!';
+                        menu.appendChild(noResults);
+                    }
+                    noResults.style.display = 'block';
+                } else if (noResults) {
+                    noResults.style.display = 'none';
+                }
+            };
+
+            // ─── CATEGORY FILTER ──────────────────────────────────────
+            window.cat = function(category, btn) {
+                document.querySelectorAll('.categories button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const items = document.querySelectorAll('.item');
+                const menu = document.getElementById('menu');
+                const noResults = menu.querySelector('.no-results');
+                if (noResults) noResults.style.display = 'none';
+
+                items.forEach(el => {
+                    const cat = el.dataset.cat;
+                    el.style.display = (category === 'all' || cat === category) ? 'block' : 'none';
+                });
+                document.getElementById('search').value = '';
+            };
+
+            // ─── MODAL BACKDROP CLOSE ────────────────────────────────
+            document.getElementById('paymentModal').addEventListener('click', function(e) {
+                if (e.target === this && !isProcessing) closePayment();
+            });
+
+            document.getElementById('historyModal').addEventListener('click', function(e) {
+                if (e.target === this) closeHistory();
+            });
+
+            // ─── ESC KEY ──────────────────────────────────────────────
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (historyModal.classList.contains('active')) closeHistory();
+                    if (modal.classList.contains('active') && !isProcessing) closePayment();
+                }
+            });
+
+            // ─── COOKIE BANNER (fixed: functional) ──────────────────
+            const cookieBanner = document.getElementById('cookieBanner');
+            const cookieAccept = document.getElementById('cookieAccept');
+            const cookieReject = document.getElementById('cookieReject');
+
+            if (cookieAccept) {
+                cookieAccept.addEventListener('click', function() {
+                    cookieBanner.classList.add('hidden');
+                    showMiniToast('Cookies accepted. Thanks!');
+                });
+            }
+            if (cookieReject) {
+                cookieReject.addEventListener('click', function() {
+                    cookieBanner.classList.add('hidden');
+                    showMiniToast('Cookies rejected. You can change this anytime.');
+                });
+            }
+
+            // ─── DARK MODE TOGGLE (fixed: functional) ───────────────
+            const darkToggle = document.getElementById('darkModeToggle');
+            let darkMode = false;
+
+            if (darkToggle) {
+                darkToggle.addEventListener('click', function() {
+                    darkMode = !darkMode;
+                    document.body.classList.toggle('dark-mode', darkMode);
+                    darkToggle.textContent = darkMode ? '☀️' : '🌙';
+                    // Preserve the original button positioning and style.
+                });
+            }
+
+            // ─── BACK TO TOP (already working, but re-attach for safety) ──
+            (function() {
+                const btn = document.getElementById('backToTop');
+                if (!btn) return;
+
+                function toggleBtn() {
+                    if (window.scrollY > 300) btn.classList.add('visible');
+                    else btn.classList.remove('visible');
+                }
+                window.addEventListener('scroll', toggleBtn, { passive: true });
+                window.addEventListener('load', toggleBtn);
+                btn.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                btn.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        btn.click();
+                    }
+                });
+            })();
+
+            // ─── NEWSLETTER SUBSCRIBE (fixed: temporary in-memory) ──
+            const subscribeBtn = document.getElementById('newsletterSubscribe');
+            const newsletterInput = document.getElementById('newsletterEmail');
+
+            if (subscribeBtn && newsletterInput) {
+                subscribeBtn.addEventListener('click', function() {
+                    const email = newsletterInput.value.trim();
+                    if (!email) {
+                        showMiniToast('Please enter your email address.');
+                        return;
+                    }
+                    if (!email.includes('@') || !email.includes('.')) {
+                        showMiniToast('Please enter a valid email address.');
+                        return;
+                    }
+                    // Keep subscription in memory only — it disappears on refresh.
+                    showMiniToast(`✅ ${email} subscribed! (temporary)`);
+                    newsletterInput.value = '';
+                });
+            }
+
+            // ─── PORTFOLIO DISCLAIMER (fixed: properly scoped) ──────
+            const disclaimerModal = document.getElementById('fictionalDisclaimer');
+            const acknowledgeBtn = document.getElementById('acknowledgeDisclaimer');
+
+            if (disclaimerModal && acknowledgeBtn) {
+                // Show the disclaimer by default.
+                disclaimerModal.classList.remove('hidden');
+
+                acknowledgeBtn.addEventListener('click', function() {
+                    disclaimerModal.classList.add('hidden');
+                });
+
+                // Also close when clicking outside the card.
+                disclaimerModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        disclaimerModal.classList.add('hidden');
+                    }
+                });
+            }
+
+            // ─── INIT ──────────────────────────────────────────────────
+            // Ensure the default category filter is applied.
+            document.querySelector('.categories button.active')?.click();
+
+            // Ensure the order panel renders correctly.
+            render();
+            updateHistoryBadge();
+
+            // ─── RE-BIND DINE/PAYMENT OPTIONS ON LOAD ────────────────
+            // (The initial bindings are set above, but we re-run them
+            //  to catch any dynamic state after the page loads.)
+            document.querySelectorAll('#dineOptions button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (isProcessing) return;
+                    document.querySelectorAll('#dineOptions button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedDine = this.dataset.dine;
+                });
+            });
+
+            document.querySelectorAll('#paymentOptions button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (isProcessing) return;
+                    document.querySelectorAll('#paymentOptions button').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedPayment = this.dataset.method;
+                });
+            });
+
+        })();
+    </script>
+
+</body>
+</html>
