@@ -1113,6 +1113,10 @@
                 backdrop-filter: blur(12px);
                 background: rgba(252, 248, 243, 0.92);
             }
+            /* Ensure main content is not hidden behind the fixed order panel */
+            .main {
+                padding: 24px 18px calc(68vh + 20px);
+            }
             .order h2 {
                 font-size: 1.7rem;
             }
@@ -1121,9 +1125,6 @@
             }
             .menu {
                 grid-template-columns: repeat(2, 1fr);
-            }
-            .main {
-                padding: 24px 18px 130px;
             }
             .search {
                 width: 100%;
@@ -1161,6 +1162,10 @@
             }
             .modal-wide {
                 max-width: 95vw;
+            }
+            /* Adjust padding for smaller panel height */
+            .main {
+                padding-bottom: calc(62vh + 20px);
             }
         }
 
